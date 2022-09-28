@@ -1,10 +1,7 @@
-// Initialize button
 let blurButton = document.getElementById("blurButton");
-
 
 function iterateDom() {
   console.log("iterateDom");
-  //const allInBody = document.querySelectorAll('body > *'); // Empty dict
   const allInBody = document.getElementsByTagName("*");
 
   var domDict = new Object();
@@ -21,8 +18,6 @@ function iterateDom() {
   for (const element of allInBody) {
     if (element.children.length == 0) {
     let text = element.innerText;
-    //let text = element.innerHTML; // NO
-    //let text = element.outerHTML; // NO
 
       if (text) {
         let cleaned_text = text.trim();
@@ -42,9 +37,6 @@ function iterateDom() {
     }
   }
 
-  console.log("domDict");
-  console.log(domDict);
-
   // send to api
   let headers = new Headers();
   headers.append('Content-Type', 'application/json');
@@ -59,15 +51,10 @@ function iterateDom() {
     headers: {
       'Content-Type': 'application/json',
     },
-    // mode: 'no-cors',  
-    // method: "post",
-    // headers: headers,   
     body: JSON.stringify(domDict),
   })
     .then((response) => response.json())
     .then((data) => {
-      // console.log("Success");
-      // console.log(data);
       var arrayLength = data.length;
       for (var i = 0; i < arrayLength; i++) {
           var d = data[i];
@@ -76,7 +63,6 @@ function iterateDom() {
               var emlId = value;
             } else if (key == "score") {
               var emlScore = value;
-
             }
             var blurStyle = `blur(${emlScore}px)`;
             document.getElementById(emlId).style.filter = blurStyle;
@@ -87,26 +73,16 @@ function iterateDom() {
     .catch((error) => {
       console.error('Error:', error);
     });
-    // add notification in button text has been cleaned?
 
 }
 
-
-// https://stackoverflow.com/questions/10596417/is-there-a-way-to-get-element-by-xpath-using-javascript-in-selenium-webdriver
-// or
-//$x("some xpath")
-function getElementByXpath(path) {
-  return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-}
-
-// When the button is clicked, inject setPageBackgroundColor into current page
 blurButton.addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: iterateDom,
     });
-
+    document.getElementById("blurButton").style.visibility = "hidden";
+    document.getElementById("blurButtonStatus").style.visibility = "visible";
   });
   
