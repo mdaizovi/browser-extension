@@ -1,45 +1,47 @@
 // Initialize button
 let blurButton = document.getElementById("blurButton");
 
-function getDomPath(el) {
-  var stack = [];
-  while ( el.parentNode != null ) {
-    console.log(el.nodeName);
-    var sibCount = 0;
-    var sibIndex = 0;
-    for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
-      var sib = el.parentNode.childNodes[i];
-      if ( sib.nodeName == el.nodeName ) {
-        if ( sib === el ) {
-          sibIndex = sibCount;
-        }
-        sibCount++;
-      }
-    }
-    if ( el.hasAttribute('id') && el.id != '' ) {
-      stack.unshift(el.nodeName.toLowerCase() + '#' + el.id);
-    } else if ( sibCount > 1 ) {
-      stack.unshift(el.nodeName.toLowerCase() + ':eq(' + sibIndex + ')');
-    } else {
-      stack.unshift(el.nodeName.toLowerCase());
-    }
-    el = el.parentNode;
-  }
-  return stack.slice(1); // removes the html element
-}
 
 function iterateDom() {
   console.log("iterateDom");
-  const allElements = document.getElementsByTagName('*');
   const allInBody = document.querySelectorAll('body > *');
 
+  function getDomPath(el) {
+    console.log("getDomPath");
+    var stack = [];
+    while ( el.parentNode != null ) {
+      console.log(el.nodeName);
+      var sibCount = 0;
+      var sibIndex = 0;
+      for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
+        var sib = el.parentNode.childNodes[i];
+        if ( sib.nodeName == el.nodeName ) {
+          if ( sib === el ) {
+            sibIndex = sibCount;
+          }
+          sibCount++;
+        }
+      }
+      if ( el.hasAttribute('id') && el.id != '' ) {
+        stack.unshift(el.nodeName.toLowerCase() + '#' + el.id);
+      } else if ( sibCount > 1 ) {
+        stack.unshift(el.nodeName.toLowerCase() + ':eq(' + sibIndex + ')');
+      } else {
+        stack.unshift(el.nodeName.toLowerCase());
+      }
+      el = el.parentNode;
+    }
+    console.log("stack");
+    console.log(stack);
+    return stack.slice(1); // removes the html element
+  }
+
   for (const element of allInBody) {
-    //console.log(element);
     let text = element.textContent;
     console.log(text);
   
-    // var path = getDomPath(element);
-    // console.log(path.join(' > '));
+    var path = getDomPath(element);
+    console.log(path.join(' > '));
   }
 
 }
@@ -60,20 +62,16 @@ blurButton.addEventListener("click", async () => {
       target: { tabId: tab.id },
       func: blurText,
     });
-
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: iterateDom,
     });
-
-
 
   });
   
   // The body of this function will be executed as a content script inside the
   // current page
   function blurText() {
-
     console.log("Blurring text");
     chrome.storage.sync.get("blurInt", ({ blurInt }) => {
       var blurStyle = `blur(${blurInt}px)`;
