@@ -14,6 +14,10 @@
 
 - [How to Write Your Own Browser Extension](https://www.freecodecamp.org/news/write-your-own-browser-extensions/)
 
-## CSS Notes
+## Pyscript?!?
 
-- [Fun With Blurred Text](https://css-tricks.com/fun-with-blurred-text/)
+- [PyScript: Way to run Python script in web/browser](https://engrmuhammadusman108.medium.com/pyscript-way-to-run-python-in-web-ffa320c29cc0)
+
+- [pyscript](https://pyscript.net/)
+
+- [Getting Started with Pyscript](https://github.com/pyscript/pyscript/blob/main/docs/tutorials/getting-started.md)

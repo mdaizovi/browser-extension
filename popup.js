@@ -19,43 +19,59 @@ function iterateDom() {
 
 
   for (const element of allInBody) {
-    //TODO this is no good bc I'm getitng all text including child nodes but i want it more granular.
-   //ex i don't want the div with 3 ps in it, i want just the p.
-
-   if (element.children.length == 0) {
-    // let text = element.textContent.trim();
+    if (element.children.length == 0) {
     let text = element.innerText;
     //let text = element.innerHTML; // NO
     //let text = element.outerHTML; // NO
 
-    if (text) {
-      let cleaned_text = text.trim();
-      if (cleaned_text.length > 0) {
+      if (text) {
+        let cleaned_text = text.trim();
+        if (cleaned_text.length > 0) {
 
-        if (!textArr.includes(cleaned_text)) {
-          var uid = getUID(element);
-          var selector = "#" + uid;
-          element.id = selector;
+          if (!textArr.includes(cleaned_text)) {
+            var uid = getUID(element);
+            var selector = "#" + uid;
+            element.id = selector;
+      
+            domDict[selector] = cleaned_text;
+            textArr.push(cleaned_text);
+          } 
     
-          domDict[selector] = cleaned_text;
-          textArr.push(cleaned_text);
-        } 
-  
+        }
       }
     }
-
-  }
-
   }
 
   console.log("domDict");
   console.log(domDict);
 
-    // make dict of {id:text}
+  // send to api
+  let headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+  headers.append('Access-Control-Allow-Origin', '*');
+  headers.append('Access-Control-Allow-Credentials', 'true');
+  headers.append('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
 
-    // send to api
-
-    // add css of blur according to toxicity rating.
+  fetch('http://localhost:5000/check-text', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    // mode: 'no-cors',  
+    // method: "post",
+    // headers: headers,   
+    body: JSON.stringify(domDict),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success");
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 
     // add notification in button text has been cleaned?
 
