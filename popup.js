@@ -5,44 +5,40 @@ let blurButton = document.getElementById("blurButton");
 function iterateDom() {
   console.log("iterateDom");
   const allInBody = document.querySelectorAll('body > *');
+  var domDict = new Object();
 
-  function getDomPath(el) {
-    console.log("getDomPath");
-    var stack = [];
-    while ( el.parentNode != null ) {
-      console.log(el.nodeName);
-      var sibCount = 0;
-      var sibIndex = 0;
-      for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
-        var sib = el.parentNode.childNodes[i];
-        if ( sib.nodeName == el.nodeName ) {
-          if ( sib === el ) {
-            sibIndex = sibCount;
-          }
-          sibCount++;
-        }
-      }
-      if ( el.hasAttribute('id') && el.id != '' ) {
-        stack.unshift(el.nodeName.toLowerCase() + '#' + el.id);
-      } else if ( sibCount > 1 ) {
-        stack.unshift(el.nodeName.toLowerCase() + ':eq(' + sibIndex + ')');
-      } else {
-        stack.unshift(el.nodeName.toLowerCase());
-      }
-      el = el.parentNode;
-    }
-    console.log("stack");
-    console.log(stack);
-    return stack.slice(1); // removes the html element
+  function getUID(elm) {
+    var id = elm.id;
+    if(window["uidCounter"]==null)
+        window["uidCounter"]=0;
+    return id||( (window["uidCounter"]++) + "_" + (new Date()).getTime() );
   }
 
   for (const element of allInBody) {
-    let text = element.textContent;
-    console.log(text);
-  
-    var path = getDomPath(element);
-    console.log(path.join(' > '));
+    let text = element.textContent.trim();
+
+    var uid = getUID(element);
+    var selector = "#" + uid;
+    element.id = selector;
+
+    if (text) {
+      domDict[selector] = text;
+    }
   }
+
+  console.log("domDict");
+  console.log(domDict);
+
+    // make dict of {id:text}
+
+    // send to api
+
+    // add css of blur according to toxicity rating.
+
+    // add notification in button text has been cleaned?
+
+
+
 
 }
 
