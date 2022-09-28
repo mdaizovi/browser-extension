@@ -66,17 +66,28 @@ function iterateDom() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Success");
-      console.log(data);
+      // console.log("Success");
+      // console.log(data);
+      var arrayLength = data.length;
+      for (var i = 0; i < arrayLength; i++) {
+          var d = data[i];
+          for (const [key, value] of Object.entries(d)) {
+            if (key == "id") {
+              var emlId = value;
+            } else if (key == "score") {
+              var emlScore = value;
+
+            }
+            var blurStyle = `blur(${emlScore}px)`;
+            document.getElementById(emlId).style.filter = blurStyle;
+          }
+      }
+
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-
     // add notification in button text has been cleaned?
-
-
-
 
 }
 
@@ -94,21 +105,8 @@ blurButton.addEventListener("click", async () => {
   
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      func: blurText,
-    });
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
       func: iterateDom,
     });
 
   });
   
-  // The body of this function will be executed as a content script inside the
-  // current page
-  function blurText() {
-    console.log("Blurring text");
-    chrome.storage.sync.get("blurInt", ({ blurInt }) => {
-      var blurStyle = `blur(${blurInt}px)`;
-      document.body.style.filter = blurStyle;
-    });
-  }
