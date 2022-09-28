@@ -4,8 +4,11 @@ let blurButton = document.getElementById("blurButton");
 
 function iterateDom() {
   console.log("iterateDom");
-  const allInBody = document.querySelectorAll('body > *');
+  //const allInBody = document.querySelectorAll('body > *'); // Empty dict
+  const allInBody = document.getElementsByTagName("*");
+
   var domDict = new Object();
+  const textArr = [];
 
   function getUID(elm) {
     var id = elm.id;
@@ -14,16 +17,35 @@ function iterateDom() {
     return id||( (window["uidCounter"]++) + "_" + (new Date()).getTime() );
   }
 
-  for (const element of allInBody) {
-    let text = element.textContent.trim();
 
-    var uid = getUID(element);
-    var selector = "#" + uid;
-    element.id = selector;
+  for (const element of allInBody) {
+    //TODO this is no good bc I'm getitng all text including child nodes but i want it more granular.
+   //ex i don't want the div with 3 ps in it, i want just the p.
+
+   if (element.children.length == 0) {
+    // let text = element.textContent.trim();
+    let text = element.innerText;
+    //let text = element.innerHTML; // NO
+    //let text = element.outerHTML; // NO
 
     if (text) {
-      domDict[selector] = text;
+      let cleaned_text = text.trim();
+      if (cleaned_text.length > 0) {
+
+        if (!textArr.includes(cleaned_text)) {
+          var uid = getUID(element);
+          var selector = "#" + uid;
+          element.id = selector;
+    
+          domDict[selector] = cleaned_text;
+          textArr.push(cleaned_text);
+        } 
+  
+      }
     }
+
+  }
+
   }
 
   console.log("domDict");
