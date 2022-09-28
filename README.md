@@ -1,5 +1,7 @@
 # browser-extension
 
+[edit extensions](chrome://extensions)
+
 ## Extension Notes
 
 - [Main Chrome How-to](https://developer.chrome.com/docs/extensions/mv3/getstarted/#next-steps)
