@@ -1,4 +1,4 @@
-let blurButton = document.getElementById("blurButton");
+var textCheckUrl ='http://localhost:5000/check-text'
 
 function iterateDom() {
   console.log("iterateDom");
