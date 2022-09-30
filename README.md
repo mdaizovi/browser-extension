@@ -1,23 +1,25 @@
-# browser-extension
+# Don't Focus on Hate Chrome Extension
 
-[edit extensions](chrome://extensions)
+This repo is part of a final project for [Spiced Academy's](https://www.spiced-academy.com/en/program) [Data Science Course](https://www.spiced-academy.com/en/program/data-science) (Ginger-Pipeline cohort)
 
-## Extension Notes
+There is also an accompanying [Back End](https://github.com/mdaizovi/hate_speech)
 
-- [Main Chrome How-to](https://developer.chrome.com/docs/extensions/mv3/getstarted/#next-steps)
+## Purpose
 
-- [How to Create a Reddit Browser Extension](https://css-tricks.com/how-to-create-a-browser-extension/)
+This browser extension reads text from a browser page and sends it to a backend URL. The backend returns a json object of the text element IDs with a score (0-1) of how toxic the text is. This extension then takes those scores and blurs the text on the page accordingly. Text with a very low score will remain unaffected. Text with a very high toxicity score will become unreadable.
 
-- [Understanding Chrome extension anatomy](https://medium.com/front-end-weekly/how-to-make-a-chrome-browser-extension-from-scratch-chrome-extension-development-basics-basic-ba1daee11123)
+## To Run Locally
 
-- [Getting Started with Developing Browser Extensions](https://medium.com/@TusharKanjariya/getting-started-with-developing-browser-extensions-eb4a7d8658b3)
+- Download this repo and then follow [instructions here](https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked) to _load an unpacked extension_.
 
-- [How to Write Your Own Browser Extension](https://www.freecodecamp.org/news/write-your-own-browser-extensions/)
+- This project will not be maintained so there is a high likelihood the url will not work. you will need to either clone the corresponding backend repo and run it locally, or otherwise host a url with identical functioanlity and replace the `textCheckUrl` url in `popup.js` with your new url.
 
-## Pyscript?!?
+## Other Maintianed Extensions
 
-- [PyScript: Way to run Python script in web/browser](https://engrmuhammadusman108.medium.com/pyscript-way-to-run-python-in-web-ffa320c29cc0)
+This extention is not a maintained project. If you would like to block hate speech in your browser please see:
 
-- [pyscript](https://pyscript.net/)
+- [Hate Speech Blocker](https://chrome.google.com/webstore/detail/hate-speech-blocker/inmmffkffipkoajnleafijfnboefpkcj?hl=en)
 
-- [Getting Started with Pyscript](https://github.com/pyscript/pyscript/blob/main/docs/tutorials/getting-started.md)
+- [Hate Block](https://chrome.google.com/webstore/detail/hate-block/cfdlpekecomochlpnbefnjimidpfmpbk?hl=en)
+
+- [WiseMonkey](https://chrome.google.com/webstore/detail/wisemonkey/olhcfgfcbkjlonelecchakjnklbjofnc?hl=en)
