@@ -17,25 +17,31 @@ function iterateDom() {
   // the tags thing is probably completely unnecessary, other than maybe irnoring scripts
   var textContainingTags = ["P","DIV","BR", "SPAN", "TD", "H1", "H2", "H3", "H4", "H5", "H6", "LI", "BUTTON", "LINK", "I", "B"];
   for (const element of allInBody) {
-
     var uid = getUID(element);
     element.id = uid;
-    var selector = "#" + uid;
-    console.log(selector);
+    // var selector = "#" + uid;
+    // console.log(selector);
 
-      const childText = Array.from(element.children, ({textContent}) => textContent.trim()).filter(Boolean).join('');
-      let text = element.innerText.trim();
-      if ((element.children.length == 0) || (childText.length == 0)) {
-        console.log("no children or childtext lengh is 0")
-        console.log("childText");
-        console.log(childText);
-        console.log("text");
-        console.log(text);
+    const childText = Array.from(element.children, ({textContent}) => textContent.trim()).filter(Boolean).join(' ').replace(/\s+/g,' ');
+    let text = element.innerText.replace(/\s+/g,' ').trim();
 
+    if (text.length > 0) {
+      console.log(uid + " text:");
+      console.log(text);
+
+      if ((element.children.length == 0) || (childText .length==0)){
+        console.log("NO children or children have no text. adding to domdict");
         //domDict[selector] = text;
         domDict[uid] = text;
+  
+    } else {
+      console.log("has children. here's child text");
+      console.log(childText);
+    }
 
-  } 
+  } else {
+    console.log(uid + "has no text");
+  }
 }
 
   // send to api
