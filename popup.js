@@ -14,26 +14,41 @@ function iterateDom() {
     return id||( (window["uidCounter"]++) + "_" + (new Date()).getTime() );
   }
 
-
+  // the tags thing is probably completely unnecessary, other than maybe irnoring scripts
+  var textContainingTags = ["P","DIV","BR", "SPAN", "TD", "H1", "H2", "H3", "H4", "H5", "H6", "LI", "BUTTON", "LINK", "I", "B"];
   for (const element of allInBody) {
-    if (element.children.length == 0) {
-    let text = element.innerText;
 
-      if (text) {
-        let cleaned_text = text.trim();
-        if (cleaned_text.length > 0) {
+    var uid = getUID(element);
+    element.id = uid;
+    var selector = "#" + uid;
+    console.log(selector);
 
-          if (!textArr.includes(cleaned_text)) {
-            var uid = getUID(element);
-            var selector = "#" + uid;
-            element.id = selector;
-      
-            domDict[selector] = cleaned_text;
-            textArr.push(cleaned_text);
-          } 
-    
-        }
+    if (textContainingTags.includes(element.tagName)) {
+      console.log("Correct Tag Name")
+      const childText = Array.from(element.children, ({textContent}) => textContent.trim()).filter(Boolean).join(' ');
+      let text = element.innerText.trim();
+      if ((element.children.length == 0) || (text.length == childText.length)) {
+        console.log("no children or childtext is same as text")
+        console.log("childText");
+        console.log(childText);
+        console.log("text");
+        console.log(text);
+          if (!textArr.includes(text)) {        
+            // var uid = getUID(element);
+            // element.id = uid;
+            // var selector = "#" + uid;
+            // console.log(selector);
+            domDict[selector] = text;
+            textArr.push(text);
+          } else {
+            console.log("textArr includes text");
+          }
+
       }
+
+    } else {
+      console.log("this element is the wrong tag");
+      console.log(element.tagName);
     }
   }
 
