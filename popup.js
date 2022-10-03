@@ -5,7 +5,7 @@ function iterateDom() {
   const allInBody = document.getElementsByTagName("*");
 
   var domDict = new Object();
-  const textArr = [];
+
 
   function getUID(elm) {
     var id = elm.id;
@@ -23,34 +23,20 @@ function iterateDom() {
     var selector = "#" + uid;
     console.log(selector);
 
-    if (textContainingTags.includes(element.tagName)) {
-      console.log("Correct Tag Name")
-      const childText = Array.from(element.children, ({textContent}) => textContent.trim()).filter(Boolean).join(' ');
+      const childText = Array.from(element.children, ({textContent}) => textContent.trim()).filter(Boolean).join('');
       let text = element.innerText.trim();
-      if ((element.children.length == 0) || (text.length == childText.length)) {
-        console.log("no children or childtext is same as text")
+      if ((element.children.length == 0) || (childText.length == 0)) {
+        console.log("no children or childtext lengh is 0")
         console.log("childText");
         console.log(childText);
         console.log("text");
         console.log(text);
-          if (!textArr.includes(text)) {        
-            // var uid = getUID(element);
-            // element.id = uid;
-            // var selector = "#" + uid;
-            // console.log(selector);
-            domDict[selector] = text;
-            textArr.push(text);
-          } else {
-            console.log("textArr includes text");
-          }
 
-      }
+        //domDict[selector] = text;
+        domDict[uid] = text;
 
-    } else {
-      console.log("this element is the wrong tag");
-      console.log(element.tagName);
-    }
-  }
+  } 
+}
 
   // send to api
   let headers = new Headers();
