@@ -10,13 +10,13 @@ This browser extension reads text from a browser page and sends it to a backend 
 
 ## To Run Locally
 
-- Download this repo and then follow [instructions here](https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked) to _load an unpacked extension_.
+- Download this repo and then follow [instructions here](https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked) to **load an unpacked extension**.
 
-- This project will not be maintained so there is a high likelihood the url will not work. you will need to either clone the corresponding backend repo and run it locally, or otherwise host a url with identical functioanlity and replace the `textCheckUrl` url in `popup.js` with your new url.
+- This project will not be maintained so there is a high likelihood the url will not work. you will need to either clone the corresponding backend repo and run it locally, or otherwise host a url with identical functionality and replace the `textCheckUrl` url in `popup.js` with your new url.
 
-## Other Maintianed Extensions
+## Other Maintained Extensions
 
-This extention is not a maintained project. If you would like to block hate speech in your browser please see:
+This extension is not a maintained project. If you would like to block hate speech in your browser please see:
 
 - [Hate Speech Blocker](https://chrome.google.com/webstore/detail/hate-speech-blocker/inmmffkffipkoajnleafijfnboefpkcj?hl=en)
 
