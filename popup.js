@@ -6,7 +6,7 @@ function iterateDom() {
   const allInBody = document.getElementsByTagName("*");
 
   var domDict = new Object();
-
+  const textArr = [];
 
   function getUID(elm) {
     var id = elm.id;
@@ -52,10 +52,11 @@ function iterateDom() {
         //console.log(uid + " text:");
         //console.log(text);
   
-        if ((element.children.length == 0) || (childText.length == 0) || (childText == text)){
+        if ((element.children.length == 0) && (!textArr.includes(text))) {
           //console.log("NO children or children have no text. adding to domdict");
           //domDict[selector] = text;
           domDict[uid] = text;
+          textArr.push(text);
     
       } else {
         //console.log("has children. here's child text");
@@ -104,8 +105,14 @@ console.log(domDict);
             } else if (key == "score") {
               var emlScore = value;
             }
-            var blurStyle = `blur(${emlScore}px)`;
-            document.getElementById(emlId).style.filter = blurStyle;
+            
+            if (emlScore >= 0.5) {
+              console.log(emlId + " score is " + emlScore );
+              var blurStyle = `blur(${emlScore*5}px)`;
+              document.getElementById(emlId).style.filter = blurStyle;
+            }
+            // var blurStyle = `blur(${emlScore}px)`;
+            // document.getElementById(emlId).style.filter = blurStyle;
           }
       }
 
