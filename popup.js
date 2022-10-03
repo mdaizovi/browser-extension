@@ -2,6 +2,7 @@ var textCheckUrl ='http://localhost:5000/check-text'
 
 function iterateDom() {
   console.log("iterateDom");
+  // const allInBody = document.getElementsByTagName("*");
   const allInBody = document.getElementsByTagName("*");
 
   var domDict = new Object();
@@ -16,33 +17,63 @@ function iterateDom() {
 
   // the tags thing is probably completely unnecessary, other than maybe irnoring scripts
   var textContainingTags = ["P","DIV","BR", "SPAN", "TD", "H1", "H2", "H3", "H4", "H5", "H6", "LI", "BUTTON", "LINK", "I", "B"];
+  var rejectedTags = ["BODY", "FORM", "g", "HEAD","HEADER", "HTML", "IMG", "IFRAME", "INPUT", "META","NAV", "OL", "path", "polygon", "SECTION", "SCRIPT", "STYLE", "svg", "UL"];
   for (const element of allInBody) {
     var uid = getUID(element);
     element.id = uid;
+    //console.log(uid);
     // var selector = "#" + uid;
     // console.log(selector);
-
-    const childText = Array.from(element.children, ({textContent}) => textContent.trim()).filter(Boolean).join(' ').replace(/\s+/g,' ');
-    let text = element.innerText.replace(/\s+/g,' ').trim();
-
-    if (text.length > 0) {
-      console.log(uid + " text:");
-      console.log(text);
-
-      if ((element.children.length == 0) || (childText .length==0)){
-        console.log("NO children or children have no text. adding to domdict");
-        //domDict[selector] = text;
-        domDict[uid] = text;
+    if (!rejectedTags.includes(element.tagName)) {
+    
+      let childText = Array.from(element.children, ({textContent}) => textContent).filter(Boolean).join(' ');
+      if(typeof childText !== "undefined")
+      {
+        if (childText.length > 0) {
+          childText = childText.trim().replace(/\s+/g,' ');
+        }
+      } else {
+        childText = "";
+      }
+  
+      let text = element.innerText;
+      if(typeof text !== "undefined")
+      {
+        if (text.length > 0) {
+          text = text.trim().replace(/\s+/g,' ');
+        }
+      } else {
+        text = "";
+      }
+      
+  
+  
+      if (text.length > 0) {
+        //console.log(uid + " text:");
+        //console.log(text);
+  
+        if ((element.children.length == 0) || (childText.length == 0) || (childText == text)){
+          //console.log("NO children or children have no text. adding to domdict");
+          //domDict[selector] = text;
+          domDict[uid] = text;
+    
+      } else {
+        //console.log("has children. here's child text");
+        //console.log(childText);
+      }
   
     } else {
-      console.log("has children. here's child text");
-      console.log(childText);
+      //console.log(uid + "has no text");
     }
 
-  } else {
-    console.log(uid + "has no text");
-  }
+    } else {
+      console.log("should I add tag "+ element.tagName + " ?")
+    }
 }
+
+console.log("ABOUT TO SEND DOMDICT");
+console.log(domDict);
+
 
   // send to api
   let headers = new Headers();
@@ -62,6 +93,8 @@ function iterateDom() {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log("returned data");
+      console.log(data);
       var arrayLength = data.length;
       for (var i = 0; i < arrayLength; i++) {
           var d = data[i];
