@@ -14,6 +14,10 @@ This browser extension reads text from a browser page and sends it to a backend 
 
 - This project will not be maintained so there is a high likelihood the url will not work. you will need to either clone the corresponding backend repo and run it locally, or otherwise host a url with identical functionality and replace the `textCheckUrl` url in `popup.js` with your new url.
 
+## Limitations
+
+- This only works on very simplistic websites, such as the example at `/extension`, served by the accompanying [Back End](https://github.com/mdaizovi/hate_speech). In order to work in real life the javascript in `popup.js` would need to be rewritten to handle more complex nesting of content. This project is a proof-of-concept.
+
 ## Other Maintained Extensions
 
 This extension is not a maintained project. If you would like to block hate speech in your browser please see:
